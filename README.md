@@ -5,16 +5,32 @@ Steam **Guildrun Demo**를 한국어로 플레이할 수 있게 해 주는 비�
 
 ## 내려받기
 
-[최신 릴리스](https://github.com/shrimpk206/grun-korean-patch/releases/latest)에서 `GrunKoreanPatch-<버전>.zip`을 받습니다.
-설치 안내는 [grun.run/patch](https://www.grun.run/patch)에도 있습니다.
+[최신 릴리스](https://github.com/shrimpk206/grun-korean-patch/releases/latest)에서 운영체제에 맞는 파일을 받습니다. 설치 안내는 [grun.run/patch](https://www.grun.run/patch)에도 있습니다.
 
-## 설치
+| 파일 | 대상 |
+|---|---|
+| `GrunKoreanPatch-<버전>-windows.zip` | Windows |
+| `GrunKoreanPatch-<버전>-macos-arm64.zip` | Mac (Apple 실리콘: M1 이후) |
+| `GrunKoreanPatch-<버전>-macos-x64.zip` | Mac (인텔) |
+
+## 설치 (Windows)
 
 1. 게임을 끕니다.
 2. 압축을 풀고 `GrunKoreanPatch.exe`를 실행해 **1번(설치)** 을 고릅니다. Steam 라이브러리에서 게임 폴더를 자동으로 찾습니다.
 3. 게임 **설정 > 언어**에서 **한국어**를 고릅니다.
 
 Windows가 "PC 보호" 창을 띄우면 '추가 정보 → 실행'을 누릅니다. 서명하지 않은 개인 제작 프로그램이라 나오는 안내입니다.
+
+## 설치 (macOS, 시험판)
+
+게임을 끄고 터미널(응용 프로그램 > 유틸리티 > 터미널)에 아래 한 줄을 붙여 넣습니다. 이 Mac에 맞는 패처를 받아 실행하고, 끝나면 내려받은 파일을 지웁니다([`install-macos.sh`](install-macos.sh)).
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/shrimpk206/grun-korean-patch/main/install-macos.sh)"
+```
+
+압축 파일을 직접 받았다면 `GrunKoreanPatch.command`를 더블클릭합니다. "확인되지 않은 개발자" 창이 뜨면 시스템 설정 > 개인정보 보호 및 보안에서 '그래도 열기'를 누릅니다.
+macOS판은 Windows판과 같은 코드지만, 아직 실제 Mac의 게임에서 확인하지 못했습니다. 문제가 있으면 [Issues](https://github.com/shrimpk206/grun-korean-patch/issues)에 알려 주세요.
 
 ## 제거 · 게임 업데이트
 
@@ -23,7 +39,7 @@ Windows가 "PC 보호" 창을 띄우면 '추가 정보 → 실행'을 누릅니�
 
 ## 패처가 하는 일
 
-게임 파일을 내려받거나 배포하지 않고, 사용자 PC에 있는 원본 4개를 고칩니다. 원본은 `Guildrun_Data/GrunKorean/backup`에 보관합니다.
+게임 파일을 내려받거나 배포하지 않고, 사용자 PC에 있는 원본 4개를 고칩니다. 원본은 게임 데이터 폴더(Windows `Guildrun_Data`, macOS `Guildrun.app/Contents/Resources/Data`)의 `GrunKorean/backup`에 보관합니다.
 
 | 파일 | 바꾸는 내용 |
 |---|---|
@@ -33,7 +49,7 @@ Windows가 "PC 보호" 창을 띄우면 '추가 정보 → 실행'을 누릅니�
 | `catalog.bin` | 고친 번들의 크기, CRC 검사 끄기 |
 
 게임의 '번체 중국어' 자리를 쓰므로 패치 중에는 번체 중국어를 고를 수 없습니다.
-코드는 [`grunpatch.py`](grunpatch.py) 하나입니다(Python 3.12, UnityPy). 배포 파일은 PyInstaller로 묶은 것입니다.
+코드는 [`grunpatch.py`](grunpatch.py) 하나입니다(Python 3.12, UnityPy). 배포 파일은 PyInstaller로 묶은 것이고, macOS판은 [GitHub Actions](.github/workflows/macos.yml)에서 만듭니다.
 
 ## 번역
 
