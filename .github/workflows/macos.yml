@@ -1,0 +1,68 @@
+name: macOS 패처 빌드
+
+# 릴리스를 올리면 Apple 실리콘(arm64)·인텔(x64)용 패처를 만들어 그 릴리스에 붙인다.
+# 수동 실행(workflow_dispatch)은 태그를 비워 두면 빌드만 하고 결과를 Artifacts에 남긴다.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "결과를 붙일 릴리스 태그 (예: v1.1.0). 비우면 빌드만"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - runner: macos-15
+            arch: arm64
+          - runner: macos-15-intel
+            arch: x64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 도구 설치
+        run: python -m pip install UnityPy==1.25.3 fonttools pyinstaller
+
+      - name: 글꼴 만들기 (Noto Sans KR → 9종)
+        run: python make_fonts.py
+
+      - name: 패처 빌드
+        run: |
+          set -euo pipefail
+          VERSION=$(python -c "import re; print(re.search(r'VERSION = \"([^\"]+)\"', open('grunpatch.py', encoding='utf-8').read()).group(1))")
+          FONT_ARGS=()
+          for w in Thin ExtraLight Light Regular Medium SemiBold Bold ExtraBold Black; do
+            FONT_ARGS+=(--add-data "fonts/NotoSansKR-$w.ttf:fonts")
+          done
+          python -m PyInstaller --noconfirm --clean --onefile --console --name GrunKoreanPatch \
+            --add-data "ko-game.json:." "${FONT_ARGS[@]}" --collect-all UnityPy grunpatch.py
+          ./dist/GrunKoreanPatch --selftest
+          mkdir pkg
+          cp dist/GrunKoreanPatch mac/GrunKoreanPatch.command mac/읽어주세요.txt fonts/OFL.txt pkg/
+          chmod +x pkg/GrunKoreanPatch pkg/GrunKoreanPatch.command
+          ZIP="GrunKoreanPatch-$VERSION-macos-${{ matrix.arch }}.zip"
+          (cd pkg && /usr/bin/ditto -c -k --sequesterRsrc . "../$ZIP")
+          shasum -a 256 "$ZIP"
+          echo "ZIP=$ZIP" >> "$GITHUB_ENV"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ matrix.arch }}
+          path: ${{ env.ZIP }}
+
+      - name: 릴리스에 붙이기
+        if: github.event_name == 'release' || inputs.tag != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name || inputs.tag }}" "$ZIP" --clobber

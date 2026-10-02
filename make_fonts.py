@@ -21,7 +21,15 @@ RANGES = [(0x20, 0x7E), (0xA0, 0x24F), (0x2000, 0x206F), (0x2070, 0x209F), (0x20
           (0xAC00, 0xD7A3), (0xFF00, 0xFFEF)]
 
 
+URL = "https://github.com/google/fonts/raw/main/ofl/notosanskr/NotoSansKR%5Bwght%5D.ttf"
+
+
 def main():
+    if not os.path.exists(SRC):  # 원본이 없으면 google/fonts 에서 받는다
+        import urllib.request
+        os.makedirs(os.path.dirname(SRC), exist_ok=True)
+        urllib.request.urlretrieve(URL, SRC)
+    os.makedirs(OUT, exist_ok=True)
     unicodes = [u for a, b in RANGES for u in range(a, b + 1)]
     for name, wght in WEIGHTS.items():
         font = instancer.instantiateVariableFont(TTFont(SRC), {"wght": wght}, updateFontNames=True)

@@ -1,0 +1,22 @@
+Grun.run 길드런 한글패치 (macOS)
+https://www.grun.run/patch
+
+[가장 쉬운 설치: 터미널]
+터미널(응용 프로그램 > 유틸리티 > 터미널)을 열고 아래 한 줄을 붙여 넣은 뒤 Enter를 누릅니다.
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/shrimpk206/grun-korean-patch/main/install-macos.sh)"
+
+[이 압축 파일로 설치]
+1. 게임을 끕니다.
+2. GrunKoreanPatch.command 를 더블클릭합니다.
+   "확인되지 않은 개발자" 창이 뜨면: 시스템 설정 > 개인정보 보호 및 보안 맨 아래에서 '그래도 열기'를 누른 뒤 다시 더블클릭합니다.
+   (서명하지 않은 개인 제작 프로그램이라 나오는 안내입니다.)
+3. 1번(설치)을 고릅니다. Steam 라이브러리에서 게임 폴더를 자동으로 찾습니다.
+4. 게임 설정 > 언어에서 '한국어'를 고릅니다. (게임의 '번체 중국어' 자리를 한국어로 바꾸는 방식입니다.)
+
+[제거]
+패처를 다시 실행해 2번(패치 제거)을 고르거나, Steam에서 '게임 파일 무결성 검사'를 합니다.
+
+[알림]
+비공식 팬 패치입니다. 게임의 글과 그림에 대한 권리는 Leyline에 있습니다.
+글꼴: Noto Sans KR (SIL Open Font License 1.1, OFL.txt 참고)
