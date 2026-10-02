@@ -38,7 +38,19 @@ Windows가 "PC 보호" 창을 띄우면 '추가 정보 → 실행'을 누릅니�
 ## 번역
 
 - 게임 문장 3,923개 전부를 영어 원문에서 직접 번역했습니다.
-- 오역이나 어색한 문장은 [Issues](https://github.com/shrimpk206/grun-korean-patch/issues)나 grun.run 커뮤니티에 알려 주세요.
+- 번역 데이터: [`ko-game.json`](ko-game.json) — 게임의 문자열 키(예: `Heroes.Hero_1.Name`) → 한국어. 패처는 이 파일을 그대로 넣습니다.
+- 번역 규칙과 용어표: [`TRANSLATING.md`](TRANSLATING.md). `{0}`, `[텍스트]<태그>` 같은 자리 표시는 글자 하나 바꾸면 게임에서 깨집니다.
+- 오역이나 어색한 문장은 [Issues](https://github.com/shrimpk206/grun-korean-patch/issues)나 [grun.run 커뮤니티](https://www.grun.run/community)에 알려 주세요.
+
+## 소스에서 직접 실행
+
+Python 3.12에서:
+
+```bash
+pip install UnityPy==1.25.3 fonttools
+python make_fonts.py   # work/fontsrc/NotoSansKR[wght].ttf (google/fonts) → fonts/NotoSansKR-*.ttf
+python grunpatch.py    # 설치·제거 메뉴. --out <폴더> 를 주면 게임은 그대로 두고 고친 파일만 만든다
+```
 
 ## 글꼴
 
