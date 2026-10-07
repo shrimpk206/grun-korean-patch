@@ -26,7 +26,7 @@ from pathlib import Path
 
 import UnityPy
 
-VERSION = "1.1.0"
+VERSION = "1.1.1"
 HERE = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
 FONTS = HERE / "fonts"
 KO_FILE = HERE / "dist" / "ko-game.json" if (HERE / "dist" / "ko-game.json").exists() else HERE / "ko-game.json"
@@ -236,11 +236,14 @@ def save_state(game: Game, state: dict) -> None:
 
 
 def restore(game: Game, state: dict) -> None:
-    """백업해 둔 원본을 제자리로. 백업이 상했으면 멈춘다."""
-    for key in TARGET:
+    """백업해 둔 원본을 제자리로. 백업이 상했으면 멈춘다.
+    지금 파일이 우리가 고친 그대로일 때만 되돌린다. 게임 업데이트(또는 무결성 검사)로 바뀐 파일은 이미 새 원본이라
+    옛 백업을 덮으면 게임이 깨진다(예: 0.5.11 global-metadata.dat + 0.5.12 GameAssembly.dll)."""
+    keys = [k for k in TARGET if sha256(game.path(k)) == state["patched"].get(k)]
+    for key in keys:
         if sha256(game.backup(key, state)) != state["original"][key]:
             raise PatchError(f"백업 파일이 손상되었습니다: {game.rel(key)}\nSteam에서 '게임 파일 무결성 검사'를 해 주세요.")
-    for key in TARGET:
+    for key in keys:
         tmp = game.path(key).with_name(game.path(key).name + ".grun-tmp")
         shutil.copy2(game.backup(key, state), tmp)
         os.replace(tmp, game.path(key))
