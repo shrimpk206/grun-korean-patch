@@ -26,7 +26,7 @@ from pathlib import Path
 
 import UnityPy
 
-VERSION = "1.1.1"
+VERSION = "1.1.2"
 HERE = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent))
 FONTS = HERE / "fonts"
 KO_FILE = HERE / "dist" / "ko-game.json" if (HERE / "dist" / "ko-game.json").exists() else HERE / "ko-game.json"

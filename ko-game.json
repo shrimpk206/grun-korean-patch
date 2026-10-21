@@ -3707,7 +3707,7 @@
  "UI.Leaderboard.ResetDays": "{0:plural:{}일|{}일}",
  "UI.Leaderboard.ResetLabel": "초기화까지 남은 시간",
  "UI.Leaderboard.ResetToday": "오늘",
- "UI.Leaderboard.ResetTooltipDescription": "순위표는 주기적으로 초기화됩니다. 새 순위표에 오르려면 게임을 최신 버전으로 업데이트하십시오.",
+ "UI.Leaderboard.ResetTooltipDescription": "순위표는 주기적으로 초기화됩니다.",
  "UI.Leaderboard.ResetTooltipTitle": "순위표 초기화",
  "UI.Leaderboard.Title": "무한 모드 순위표",
  "UI.Leaderboard.WinStreakTitle": "연승 순위표",
